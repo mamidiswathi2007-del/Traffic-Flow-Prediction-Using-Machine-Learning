@@ -1,3 +1,4 @@
+
 import os
 import pandas as pd
 
@@ -325,6 +326,17 @@ def route_planner():
 
 
 # ==========================================
+# TRAFFIC MAP
+# ==========================================
+
+@app.route("/traffic-map")
+@login_required
+def traffic_map():
+
+    return render_template("traffic_map.html")
+
+
+# ==========================================
 # AI CHATBOT
 # ==========================================
 
@@ -435,6 +447,7 @@ if __name__ == "__main__":
     print("Prediction    : http://127.0.0.1:5001/predict")
     print("Forecast      : http://127.0.0.1:5001/forecast")
     print("Route Planner : http://127.0.0.1:5001/route-planner")
+    print("Traffic Map   : http://127.0.0.1:5001/traffic-map")
     print("Chatbot       : http://127.0.0.1:5001/chatbot")
     print("Analytics     : http://127.0.0.1:5001/analytics")
     print("About         : http://127.0.0.1:5001/about")
