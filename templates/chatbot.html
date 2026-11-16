@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.chatbot-page {
+    max-width: 1000px;
+    margin: auto;
+    padding: 45px 20px;
+    color: #f5f7ff;
+}
+
+.chatbot-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.chatbot-heading h1 {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.chatbot-heading h1 span {
+    color: #9d91ff;
+}
+
+.chatbot-heading p {
+    color: #aebbd5;
+    font-size: 14px;
+}
+
+.chatbot-box {
+    max-width: 750px;
+    height: 570px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #2a3755;
+    border-radius: 20px;
+    background: #121a2e;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.2);
+}
+
+.chatbot-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 20px;
+    background: #192747;
+    border-bottom: 1px solid #2a3755;
+}
+
+.bot-avatar {
+    width: 45px;
+    height: 45px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: #7565f5;
+    font-size: 23px;
+}
+
+.chatbot-header h3 {
+    font-size: 15px;
+}
+
+.chatbot-header p {
+    color: #72f0d3;
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 13px 16px;
+    border-radius: 13px;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.bot-message {
+    align-self: flex-start;
+    background: #202d49;
+    color: #e2e9fa;
+    border-bottom-left-radius: 3px;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #8274f8, #6655e8);
+    color: white;
+    border-bottom-right-radius: 3px;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+    padding: 17px;
+    border-top: 1px solid #2a3755;
+    background: #151f35;
+}
+
+.chat-input-area input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid #34415f;
+    border-radius: 10px;
+    outline: none;
+    background: #0c1425;
+    color: white;
+    font-size: 13px;
+}
+
+.chat-input-area input:focus {
+    border-color: #8b7cff;
+}
+
+.chat-input-area button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #8274f8;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.chat-input-area button:hover {
+    opacity: 0.85;
+}
+
+.chat-suggestions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.chat-suggestions button {
+    padding: 10px 15px;
+    border: 1px solid #34415f;
+    border-radius: 20px;
+    background: #151f35;
+    color: #c7d0e8;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.chat-suggestions button:hover {
+    border-color: #8b7cff;
+    color: white;
+}
+
+@media(max-width:600px) {
+    .chatbot-heading h1 {
+        font-size: 27px;
+    }
+
+    .chatbot-box {
+        height: 520px;
+    }
+
+    .message {
+        max-width: 90%;
+    }
+
+    .chat-input-area button {
+        padding: 10px 13px;
+    }
+}
+</style>
+
+<section class="chatbot-page">
+
+    <div class="chatbot-heading">
+        <h1>SmartFlow <span>AI Assistant</span></h1>
+        <p>Your intelligent assistant for traffic information and travel guidance.</p>
+    </div>
+
+    <div class="chatbot-box">
+
+        <div class="chatbot-header">
+            <div class="bot-avatar">🤖</div>
+            <div>
+                <h3>SmartFlow Assistant</h3>
+                <p>● Online Assistant</p>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+
+            <div class="message bot-message">
+                Hello! 👋 Welcome to SmartFlow AI.<br>
+                I can help you with traffic information, peak hours,
+                road conditions and travel suggestions.<br><br>
+                How can I help you today?
+            </div>
+
+        </div>
+
+        <form class="chat-input-area" id="chatForm">
+            <input
+                type="text"
+                id="userInput"
+                placeholder="Ask me about traffic..."
+                autocomplete="off"
+                required
+            >
+            <button type="submit">Send ➤</button>
+        </form>
+
+    </div>
+
+    <div class="chat-suggestions">
+        <button type="button" onclick="askQuestion('What is peak hour traffic?')">
+            Peak Hours
+        </button>
+
+        <button type="button" onclick="askQuestion('How can I avoid traffic?')">
+            Avoid Traffic
+        </button>
+
+        <button type="button" onclick="askQuestion('What does heavy traffic mean?')">
+            Traffic Levels
+        </button>
+
+        <button type="button" onclick="askQuestion('How does traffic prediction work?')">
+            ML Prediction
+        </button>
+    </div>
+
+</section>
+
+<script>
+const chatForm = document.getElementById("chatForm");
+const userInput = document.getElementById("userInput");
+const chatMessages = document.getElementById("chatMessages");
+
+function addMessage(message, className) {
+    const messageDiv = document.createElement("div");
+    messageDiv.className = "message " + className;
+    messageDiv.textContent = message;
+
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function getBotResponse(message) {
+    const text = message.toLowerCase();
+
+    if (text.includes("hello") || text.includes("hi")) {
+        return "Hello! Welcome to SmartFlow AI. How can I help you with traffic today?";
+    }
+
+    if (text.includes("peak")) {
+        return "Peak traffic hours are generally 8 AM to 11 AM and 5 PM to 8 PM. Traffic conditions can vary depending on the location.";
+    }
+
+    if (text.includes("avoid") || text.includes("route")) {
+        return "To reduce travel delays, plan your journey outside peak hours and compare alternative routes before travelling.";
+    }
+
+    if (text.includes("heavy")) {
+        return "Heavy traffic means a large number of vehicles are using a road, which may increase travel time.";
+    }
+
+    if (text.includes("moderate")) {
+        return "Moderate traffic means roads are reasonably busy. Allow some extra time for your journey.";
+    }
+
+    if (text.includes("low")) {
+        return "Low traffic means fewer vehicles are on the road, so travelling may be easier.";
+    }
+
+    if (text.includes("weather") || text.includes("rain")) {
+        return "Rain, fog and poor weather conditions can affect road speed and traffic flow. Drive carefully and maintain a safe distance.";
+    }
+
+    if (text.includes("prediction") || text.includes("machine learning") || text.includes("ml")) {
+        return "SmartFlow AI uses a Machine Learning model to estimate traffic flow based on factors such as time, weather, temperature, rainfall and road type.";
+    }
+
+    if (text.includes("thank")) {
+        return "You're welcome! 😊 Stay safe and have a pleasant journey.";
+    }
+
+    if (text.includes("traffic")) {
+        return "Traffic conditions depend on time, weather, rainfall and road type. You can use the Predict Traffic page to estimate traffic using our ML model.";
+    }
+
+    return "I'm your SmartFlow traffic assistant. You can ask me about peak hours, traffic levels, weather effects, routes or machine learning predictions.";
+}
+
+function sendMessage(message) {
+    const cleanMessage = message.trim();
+
+    if (!cleanMessage) {
+        return;
+    }
+
+    addMessage(cleanMessage, "user-message");
+
+    const response = getBotResponse(cleanMessage);
+
+    setTimeout(function() {
+        addMessage(response, "bot-message");
+    }, 400);
+}
+
+chatForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    sendMessage(userInput.value);
+    userInput.value = "";
+});
+
+function askQuestion(question) {
+    sendMessage(question);
+}
+</script>
+
+{% endblock %}

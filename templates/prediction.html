@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Prediction | SmartFlow AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <a href="/" class="brand">
+        <span class="brand-icon">S</span>
+        SmartFlow <span class="brand-ai">AI</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/predict">Predict Traffic</a>
+        <a href="/analytics">Analytics</a>
+        <a href="/about">About</a>
+    </div>
+</nav>
+
+<main class="page-container">
+
+    <section class="page-heading">
+        <span class="eyebrow">✦ MACHINE LEARNING</span>
+        <h1>Traffic <span>Prediction</span></h1>
+        <p>Enter your travel conditions to estimate traffic flow.</p>
+    </section>
+
+    <section class="prediction-layout">
+
+        <form method="POST" action="/predict" class="prediction-form">
+
+            <h2>Travel Conditions</h2>
+            <p class="form-description">Enter all required details.</p>
+
+            <label for="hour">Time of Day</label>
+            <select name="hour" id="hour" required>
+                {% for h in range(24) %}
+                <option value="{{ h }}" {% if h == 18 %}selected{% endif %}>
+                    {{ "%02d"|format(h) }}:00
+                </option>
+                {% endfor %}
+            </select>
+
+            <label for="day_of_week">Day of Week</label>
+            <select name="day_of_week" id="day_of_week" required>
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option>
+                <option value="7">Sunday</option>
+            </select>
+
+            <label for="is_weekend">Is it a Weekend?</label>
+            <select name="is_weekend" id="is_weekend" required>
+                <option value="0" selected>No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label for="weather">Weather</label>
+            <select name="weather" id="weather" required>
+                <option value="Clear">Clear</option>
+                <option value="Rainy">Rainy</option>
+                <option value="Cloudy">Cloudy</option>
+                <option value="Foggy">Foggy</option>
+            </select>
+
+            <div class="form-row">
+
+                <div>
+                    <label for="temperature">Temperature (°C)</label>
+                    <input type="number"
+                           id="temperature"
+                           name="temperature"
+                           value="29"
+                           min="-20"
+                           max="60"
+                           step="0.1"
+                           required>
+                </div>
+
+                <div>
+                    <label for="rainfall">Rainfall (mm)</label>
+                    <input type="number"
+                           id="rainfall"
+                           name="rainfall"
+                           value="0"
+                           min="0"
+                           max="500"
+                           step="0.1"
+                           required>
+                </div>
+
+            </div>
+
+            <label for="road_type">Road Type</label>
+            <select name="road_type" id="road_type" required>
+                <option value="Main Road">Main Road</option>
+                <option value="Highway">Highway</option>
+                <option value="Residential">Residential</option>
+            </select>
+
+            <div class="form-row">
+
+                <div>
+                    <label for="month">Month</label>
+                    <select name="month" id="month" required>
+                        {% for m in range(1, 13) %}
+                        <option value="{{ m }}" {% if m == 11 %}selected{% endif %}>
+                            {{ m }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="day">Day</label>
+                    <input type="number"
+                           name="day"
+                           id="day"
+                           value="11"
+                           min="1"
+                           max="31"
+                           required>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary submit-btn">
+                ✦ Predict Traffic
+            </button>
+
+            <p class="form-note">
+                Machine Learning based traffic estimation.
+            </p>
+
+        </form>
+
+        <div class="result-panel">
+
+            {% if result %}
+
+                <span class="eyebrow">PREDICTION COMPLETE</span>
+
+                <div class="result-icon">🚦</div>
+
+                <h2>Estimated Traffic</h2>
+
+                <div class="vehicle-count">
+                    {{ result.predicted_vehicle_count }}
+                </div>
+
+                <p class="result-caption">
+                    Predicted vehicle count
+                </p>
+
+                <div class="traffic-level
+                    {% if result.traffic_level == 'High' %}level-high
+                    {% elif result.traffic_level == 'Moderate' %}level-moderate
+                    {% else %}level-low{% endif %}">
+
+                    {{ result.traffic_level }} Traffic
+
+                </div>
+
+                <p class="result-description">
+                    This prediction is generated using the trained
+                    Machine Learning model.
+                </p>
+
+            {% elif error %}
+
+                <div class="result-icon">⚠️</div>
+
+                <h2>Unable to Predict</h2>
+
+                <p class="result-description">
+                    {{ error }}
+                </p>
+
+            {% else %}
+
+                <span class="eyebrow">YOUR RESULTS</span>
+
+                <div class="result-icon">📊</div>
+
+                <h2>Your Prediction Awaits</h2>
+
+                <p class="result-description">
+                    Enter your travel conditions and click
+                    Predict Traffic to see the result.
+                </p>
+
+                <div class="result-placeholder">
+                    ✦ AI prediction will appear here
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    <a href="/" class="brand">
+        SmartFlow <span class="brand-ai">AI</span>
+    </a>
+
+    <p>Intelligent mobility starts with better predictions.</p>
+    <span>Machine Learning Traffic Prediction System</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartFlow AI | Traffic Prediction</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101827;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+
+        header {
+            background: #17243a;
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #334155;
+        }
+
+        header h2 {
+            color: #38bdf8;
+            font-size: 25px;
+            white-space: nowrap;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        /* HERO SECTION */
+
+        .hero {
+            max-width: 1150px;
+            margin: 70px auto;
+            padding: 55px 35px;
+            text-align: center;
+            background: linear-gradient(135deg, #1c2b42, #203b5b);
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h1 {
+            color: #38bdf8;
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            font-size: 17px;
+            line-height: 1.8;
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .hero-buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .primary {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #0284c7;
+            transform: translateY(-3px);
+        }
+
+        .secondary {
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+        }
+
+        .secondary:hover {
+            background: #38bdf8;
+            color: #101827;
+        }
+
+        /* FEATURES */
+
+        .features {
+            max-width: 1150px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 22px;
+        }
+
+        .feature-card {
+            background: #1c2b42;
+            padding: 28px 22px;
+            border-radius: 14px;
+            border: 1px solid #334155;
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+        }
+
+        .feature-card h3 {
+            color: #38bdf8;
+            font-size: 20px;
+            margin-bottom: 14px;
+        }
+
+        .feature-card p {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .feature-card a {
+            display: inline-block;
+            margin-top: 18px;
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 70px;
+            padding: 25px;
+            text-align: center;
+            background: #17243a;
+            color: #94a3b8;
+            border-top: 1px solid #334155;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            header {
+                justify-content: center;
+            }
+
+            nav {
+                gap: 14px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .hero {
+                margin: 25px 12px;
+                padding: 35px 18px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+
+    <header>
+        <h2>🚦 SmartFlow AI</h2>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/predict">Predict Traffic</a>
+            <a href="/forecast">Forecast</a>
+            <a href="/route-planner">Route Planner</a>
+            <a href="/chatbot">AI Chatbot</a>
+            <a href="/analytics">Analytics</a>
+            <a href="/about">About</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero">
+
+        <h1>Smart Traffic Management System</h1>
+
+        <p>
+            Welcome to SmartFlow AI – an intelligent traffic flow
+            prediction system powered by Machine Learning.
+            Predict traffic conditions, explore future forecasts,
+            analyze traffic patterns and make smarter route decisions.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="/predict" class="btn primary">
+                Predict Traffic
+            </a>
+
+            <a href="/dashboard" class="btn secondary">
+                View Dashboard
+            </a>
+        </div>
+
+    </section>
+
+    <!-- FEATURES SECTION -->
+
+    <section class="features">
+
+        <h2>Our Smart Features</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <h3>🚦 Traffic Prediction</h3>
+                <p>
+                    Predict traffic flow using Machine Learning
+                    based on time, weather and road conditions.
+                </p>
+                <a href="/predict">Explore Prediction →</a>
+            </div>
+
+            <div class="feature-card">
+                <h3>📊 Dashboard</h3>
+                <p>
+                    View traffic statistics, prediction summaries
+                    and important traffic information.
+                </p>
+                <a href="/dashboard">Open Dashboard →</a>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔮 Future Forecast</h3>
+                <p>
+                    Explore estimated future traffic conditions
+                    and understand possible traffic changes.
+                </p>
+                <a href="/forecast">View Forecast →</a>
+            </div>
+
+            <div class="feature-card">
+                <h3>🗺️ Route Planner</h3>
+                <p>
+                    Explore route planning features to help
+                    make smarter travel decisions.
+                </p>
+                <a href="/route-planner">Plan Route →</a>
+            </div>
+
+            <div class="feature-card">
+                <h3>🤖 AI Chatbot</h3>
+                <p>
+                    Interact with the SmartFlow AI assistant
+                    for traffic-related information.
+                </p>
+                <a href="/chatbot">Chat Now →</a>
+            </div>
+
+            <div class="feature-card">
+                <h3>📈 Analytics</h3>
+                <p>
+                    Analyze traffic datasets, patterns and
+                    machine learning model performance.
+                </p>
+                <a href="/analytics">View Analytics →</a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>© 2026 SmartFlow AI | Intelligent Traffic Management System</p>
+        <p>Powered by Python, Flask and Machine Learning</p>
+    </footer>
+
+</body>
+</html>

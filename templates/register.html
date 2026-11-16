@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register | SmartFlow AI</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#101827,#123653);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.card{width:390px;max-width:92%;padding:35px;background:#1c2b42;border:1px solid #334155;border-radius:18px}
+h1{text-align:center;color:#38bdf8}
+p{text-align:center;color:#cbd5e1}
+input{width:100%;padding:13px;margin:10px 0;border:1px solid #475569;border-radius:8px;background:#101827;color:white}
+button{width:100%;padding:14px;background:#0ea5e9;color:white;border:0;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:12px}
+a{color:#38bdf8;text-decoration:none}
+.message{text-align:center;color:#fca5a5;margin:10px 0}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Create Account</h1>
+<p>Join SmartFlow AI</p>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% for category, message in messages %}
+<div class="message">{{ message }}</div>
+{% endfor %}
+{% endwith %}
+
+<form method="POST">
+<input type="text" name="name" placeholder="Full Name" required>
+<input type="email" name="email" placeholder="Email Address" required>
+<input type="password" name="password" placeholder="Password (minimum 8 characters)" required minlength="8">
+<input type="password" name="confirm_password" placeholder="Confirm Password" required>
+<button type="submit">Create Account</button>
+</form>
+
+<p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
+</div>
+</body>
+</html>
